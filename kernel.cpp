@@ -94,27 +94,30 @@ int main() {
 	// Now we can manipulate the image the way we like
 	// for example we copy its contents into a new array
 	int out[MAX_H][MAX_W];
-    for (int row = 1; row < h - 1; row++) {
+     for (int row = 1; row < h - 1; row++) {
         for (int col = 1; col < w - 1; col++) {
-            int avg = (
-                img[row-1][col-1] + img[row-1][col] + img[row-1][col+1] +
-                img[row][col-1]   + img[row][col]   + img[row][col+1] +
-                img[row+1][col-1] + img[row+1][col] + img[row+1][col+1]
-            ) / 9;
-            int val = 255 - avg;
-            if (val < 0) val = 0;
-            if (val > 255) val = 255;
-
-            out[row][col] = val;
+            int a = img[row-1][col-1];
+            int b = img[row-1][col];
+            int c = img[row-1][col+1];
+            int g = img[row+1][col-1];
+            int h_ = img[row+1][col];
+            int i = img[row+1][col+1];
+            int value = (g + 2*h_ + i) - (a + 2*b + c);
+            if(value > 255){
+                value = 255;
+            }else if(value < 0){
+                value = 0;
+            }
+            out[row][col] = value;
         }
     }
     for (int row = 0; row < h; row++) {
-        out[row][0] = img[row][0];
-        out[row][w - 1] = img[row][w - 1];
+        out[row][0] = 0;
+        out[row][w-1] = 0;
     }
     for (int col = 0; col < w; col++) {
-        out[0][col] = img[0][col];
-        out[h - 1][col] = img[h - 1][col];
+        out[0][col] = 0;
+        out[h-1][col] = 0;
     }
 
 	// and save this new image to file "outImage.pgm"
