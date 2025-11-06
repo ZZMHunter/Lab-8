@@ -57,7 +57,7 @@ void readImage(int image[MAX_H][MAX_W], int &height, int &width) {
 
 // Writes a PGM file
 // Need to provide the array data and the image dimensions
-void writeImage(int image[MAX_H][MAX_W], int height, int width) {
+void writeImage(int image[2*MAX_H][2*MAX_W], int height, int width) {
 	ofstream ostr;
 	ostr.open("outImage.pgm");
 	if (ostr.fail()) {
@@ -96,7 +96,7 @@ int main() {
 
 	// Now we can manipulate the image the way we like
 	// for example we copy its contents into a new array
-	int out[2*h][2*w];
+	int out[2*MAX_H][2*MAX_W];
 
 	for(int row = 0; row < 2*h; row++) {
 		for(int col = 0; col < 2*w; col++) {
