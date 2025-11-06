@@ -97,7 +97,7 @@ int main() {
 
 	for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
-            if(col>255/2){
+            if(col>MAX_W/2){
                 out[row][col] = 255-img[row][col];
             }else{
                 out[row][col] = img[row][col];
