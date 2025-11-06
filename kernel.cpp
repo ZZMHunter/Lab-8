@@ -83,7 +83,6 @@ void writeImage(int image[MAX_H][MAX_W], int height, int width) {
 }
 
 int main() {
-
 	int img[MAX_H][MAX_W];
 	int h, w;
 
@@ -95,12 +94,18 @@ int main() {
 	// Now we can manipulate the image the way we like
 	// for example we copy its contents into a new array
 	int out[MAX_H][MAX_W];
+    for (int row = 1; row < h - 1; row++) {
+        for (int col = 1; col < w - 1; col++) {
+            int avg = (
+                img[row-1][col-1] + img[row-1][col] + img[row-1][col+1] +
+                img[row][col-1]   + img[row][col]   + img[row][col+1] +
+                img[row+1][col-1] + img[row+1][col] + img[row+1][col+1]
+            ) / 9;
+            int val = 255 - avg;
+            if (val < 0) val = 0;
+            if (val > 255) val = 255;
 
-    for (int row = 1; row < h-1; row ++) {
-        for (int col = 1; col < w-1; col ++) {
-            out[row][col] = 255-img[row-1][col-1]+img[row-1][col]+img[row-1][col+1]+
-                            img[row][col-1]  +img[row][col]  +img[row][col+1]+
-                            img[row+1][col-1]+img[row+1][col]+img[row+1][col+1]/9;   
+            out[row][col] = val;
         }
     }
     for (int row = 0; row < h; row++) {
@@ -111,7 +116,9 @@ int main() {
         out[0][col] = img[0][col];
         out[h - 1][col] = img[h - 1][col];
     }
+
 	// and save this new image to file "outImage.pgm"
 	writeImage(out, h, w);
-
+    
 }
+
