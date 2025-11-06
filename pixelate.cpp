@@ -95,17 +95,18 @@ int main() {
 	// for example we copy its contents into a new array
 	int out[MAX_H][MAX_W];
 
-	for(int row = 0; row < h/2; row++) {
-		for(int col = 0; col < w/2; col++) {
-            int sum;
-            if (row == 0 && col == 0){
-                sum += img[row][col];
-            }else{
-                sum += img[row/2+1][col/2+1];
-            }
-			out[row][col] = img[row][col];
-		}
-	}
+    for (int row = 0; row < h; row += 2) {
+        for (int col = 0; col < w; col += 2) {
+            int sum = img[row][col] + img[row][col+1]
+                    + img[row+1][col] + img[row+1][col+1];
+            int avg = sum / 4;
+            
+            out[row][col] = avg;
+            out[row][col+1] = avg;
+            out[row+1][col] = avg;
+            out[row+1][col+1] = avg;
+        }
+    }
 
 	// and save this new image to file "outImage.pgm"
 	writeImage(out, h, w);
