@@ -95,19 +95,21 @@ int main() {
 	// for example we copy its contents into a new array
 	int out[MAX_H][MAX_W];
 
-    for (int row = 0; row < h; row += 2) {
-        for (int col = 0; col < w; col += 2) {
-            int sum = img[row][col] + img[row][col+1]
-                    + img[row+1][col] + img[row+1][col+1];
-            int avg = sum / 4;
-            
-            out[row][col] = avg;
-            out[row][col+1] = avg;
-            out[row+1][col] = avg;
-            out[row+1][col+1] = avg;
+    for (int row = 1; row < h-1; row ++) {
+        for (int col = 1; col < w-1; col ++) {
+            out[row][col] = 255-img[row-1][col-1]+img[row-1][col]+img[row-1][col+1]+
+                            img[row][col-1]  +img[row][col]  +img[row][col+1]+
+                            img[row+1][col-1]+img[row+1][col]+img[row+1][col+1]/9;   
         }
     }
-
+    for (int row = 0; row < h; row++) {
+        out[row][0] = img[row][0];
+        out[row][w - 1] = img[row][w - 1];
+    }
+    for (int col = 0; col < w; col++) {
+        out[0][col] = img[0][col];
+        out[h - 1][col] = img[h - 1][col];
+    }
 	// and save this new image to file "outImage.pgm"
 	writeImage(out, h, w);
 
